@@ -15,9 +15,9 @@
 
 **Punchline / outro:** app icon, "Wordsmith", "Write in your language. Send in English.", plus the two shortcuts and "runs on your Claude subscription".
 
-**Tone:** default — punchy, playful, clean. Dark background with the icon's indigo → pink gradient glowing behind, SF Pro, real dark-mode panel.
+**Tone:** default — punchy, playful, clean. idOS brand: near-black background with a soft aquamarine glow, key words on an aquamarine highlighter block, Urbanist, real dark-mode panel.
 
-**Visual identity:** background #0B0B12; accent gradient #6B5CF2 → #D959BF (from the app icon); system font (SF Pro); the real ChoicePanel rendered by the app's own code at 2×.
+**Visual identity:** idOS palette (from idos.network): background #040404, greys #111111 / #1A1A1A / #A3A3A3, text #F8F8F8, accent aquamarine #00FFB9 (highlighter blocks behind key words, keystroke glow); Urbanist for captions and the outro (macOS UI stays in the system font); app icon is an aquamarine wand on a dark tile with an aquamarine outline, like the idOS logo; the real ChoicePanel rendered by the app's own code at 2×.
 
 **Sound:** 120 BPM, D major (Dmaj7 – Bm7 – Gmaj7 – A6). Soft pad + plucked arpeggio, light kick from the reveal, hats in the highlights; effects tuned to D (key taps, panel whoosh + chime, replace sparkle) mixed under the music.
 

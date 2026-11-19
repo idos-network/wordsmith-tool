@@ -1,54 +1,57 @@
 <!doctype html>
 <html><head><meta charset="utf-8"><title>Wordsmith</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700&display=block" rel="stylesheet">
 <style>
-:root { --a: #6B5CF2; --b: #D959BF; }
+:root { --a: #00FFB9; --b: #2CB2FF; --aqua: #00FFB9; --brand: Urbanist, -apple-system, sans-serif; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0B12; color: #fff;
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #040404; color: #fff;
   font-family: -apple-system, "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 .abs { position: absolute; }
-.glow { position: absolute; width: 1100px; height: 1100px; border-radius: 50%; filter: blur(150px); opacity: .32; }
+.glow { position: absolute; width: 1100px; height: 1100px; border-radius: 50%; filter: blur(150px); opacity: .13; }
 #glowA { background: var(--a); } #glowB { background: var(--b); }
-.cap { position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-size: 68px; font-weight: 700; letter-spacing: -1.6px; }
+.cap { position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-size: 72px; font-weight: 600; letter-spacing: -1.4px; font-family: var(--brand); }
 .cap.mid { top: 450px; font-size: 76px; }
-.grad { background: linear-gradient(90deg, #8E80FF, #F07AD6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* idOS highlighter: aquamarine block behind the key words */
+.grad { background: var(--aqua); color: #0A090C; padding: 0 .12em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.glowtext { color: var(--aqua); }
 .cap kbd, .line kbd { display: inline-block; font: inherit; font-size: .78em; min-width: 1.15em; padding: 0 .22em; border-radius: .2em;
-  background: #24242F; border: 2px solid #3A3A4C; box-shadow: 0 .09em 0 #121219; line-height: 1.2; vertical-align: .06em; color: #fff; }
+  background: #1A1A1A; border: 2px solid #3B3B3B; box-shadow: 0 .09em 0 #000; line-height: 1.2; vertical-align: .06em; color: #fff; }
 
-#composer { left: 410px; top: 236px; width: 1100px; height: 250px; background: #16161E; border: 1px solid #2A2A37;
+#composer { left: 410px; top: 236px; width: 1100px; height: 250px; background: #111111; border: 1px solid #262626;
   border-radius: 22px; padding: 26px 36px; box-shadow: 0 30px 90px rgba(0,0,0,.55); }
-.chan { font-size: 22px; color: #8B8BA3; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.chan { font-size: 22px; color: #7A7A7A; font-weight: 600; display: flex; align-items: center; gap: 10px; }
 .chan .dot { width: 10px; height: 10px; border-radius: 50%; background: #3FCF6E; }
 .msgbox { position: relative; margin-top: 18px; height: 150px; font-size: 34px; line-height: 1.4; }
-.msg { position: absolute; inset: 0; color: #F2F2F7; }
+.msg { position: absolute; inset: 0; color: #F8F8F8; }
 .sel { background: rgba(10,132,255,.5); border-radius: 3px; }
 .caret { display: inline-block; width: 3px; height: 40px; background: #fff; vertical-align: -7px; margin-left: 1px; }
-.send { position: absolute; right: 26px; bottom: 22px; font-size: 20px; color: #6E6E85; font-weight: 600; }
+.send { position: absolute; right: 26px; bottom: 22px; font-size: 20px; color: #7A7A7A; font-weight: 600; }
 
 .panel { position: absolute; transform-origin: 0 0; border-radius: 18px; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); }
 
-.key { position: absolute; width: 112px; height: 112px; border-radius: 24px; background: #22222E; border: 2px solid #3A3A4C;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 9px 0 #111118; }
+.key { position: absolute; width: 112px; height: 112px; border-radius: 24px; background: #1A1A1A; border: 2px solid #3B3B3B;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 9px 0 #000; }
 .key b { font-size: 50px; font-weight: 500; line-height: 1; }
-.key i { font-style: normal; font-size: 17px; color: #9A9AB2; letter-spacing: .3px; }
+.key i { font-style: normal; font-size: 17px; color: #A3A3A3; letter-spacing: .3px; }
 
-#thread { left: 100px; top: 222px; width: 760px; background: #16161E; border: 1px solid #2A2A37; border-radius: 22px;
+#thread { left: 100px; top: 222px; width: 760px; background: #111111; border: 1px solid #262626; border-radius: 22px;
   padding: 22px 28px 26px; box-shadow: 0 30px 90px rgba(0,0,0,.55); }
 .tm { display: flex; gap: 16px; padding: 10px 0; position: relative; }
 .av { flex: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 21px; }
 .who { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
-.txt { font-size: 21px; line-height: 1.38; color: #D9D9E6; }
+.txt { font-size: 21px; line-height: 1.38; color: #E0E0E0; }
 #threadSel { position: absolute; left: 14px; right: 14px; top: 62px; bottom: 16px; border-radius: 12px; background: rgba(10,132,255,.24); }
 
-#menubar { left: 0; top: 0; width: 1920px; height: 50px; background: rgba(28,28,36,.82); border-bottom: 1px solid rgba(255,255,255,.07); }
+#menubar { left: 0; top: 0; width: 1920px; height: 50px; background: rgba(26,26,26,.85); border-bottom: 1px solid rgba(255,255,255,.07); }
 #wandBox { position: absolute; left: 1622px; top: 6px; width: 50px; height: 38px; border-radius: 8px; }
 #wand { position: absolute; left: 10px; top: 4px; width: 30px; height: 28px; }
-#clock { position: absolute; left: 1700px; top: 11px; font-size: 22px; font-weight: 500; color: #EDEDF2; }
-#menu { left: 1370px; top: 58px; width: 520px; padding: 10px; border-radius: 16px; background: rgba(44,44,54,.96);
+#clock { position: absolute; left: 1700px; top: 11px; font-size: 22px; font-weight: 500; color: #F8F8F8; }
+#menu { left: 1370px; top: 58px; width: 520px; padding: 10px; border-radius: 16px; background: rgba(38,38,38,.96);
   border: 1px solid rgba(255,255,255,.1); box-shadow: 0 30px 80px rgba(0,0,0,.6); transform-origin: 270px 0; }
 .mi { display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-radius: 9px;
-  font-size: 26px; color: #F2F2F7; }
-.mi span { color: #9A9AB2; letter-spacing: 2px; }
+  font-size: 26px; color: #F8F8F8; }
+.mi span { color: #A3A3A3; letter-spacing: 2px; }
 .mi.on { background: #0A66E8; }
 .mi.on span { color: #fff; }
 .msep { height: 1px; background: rgba(255,255,255,.12); margin: 8px 12px; }
@@ -56,10 +59,10 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0B1
 
 #outro { inset: 0; }
 #icon { position: absolute; left: 810px; top: 150px; width: 300px; height: 300px; }
-#title { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font-size: 120px; font-weight: 800; letter-spacing: -3px; }
-#tagline { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 56px; font-weight: 700; letter-spacing: -1px; }
-.line { position: absolute; left: 0; right: 0; text-align: center; font-size: 32px; color: #A6A6BD; font-weight: 500; }
-#line1 { top: 760px; } #line2 { top: 822px; font-size: 26px; color: #7C7C94; }
+#title { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font-size: 128px; font-weight: 600; letter-spacing: -2.5px; font-family: var(--brand); }
+#tagline { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 60px; font-weight: 600; letter-spacing: -1px; font-family: var(--brand); }
+.line { position: absolute; left: 0; right: 0; text-align: center; font-size: 34px; color: #A3A3A3; font-weight: 500; font-family: var(--brand); }
+#line1 { top: 760px; } #line2 { top: 822px; font-size: 26px; color: #7A7A7A; }
 </style></head>
 <body>
 <div id="glowA" class="glow"></div><div id="glowB" class="glow"></div>
@@ -75,7 +78,7 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0B1
 
 <div id="composer" class="abs">
   <div class="chan"><span class="dot"></span># backend</div>
-  <div class="msgbox"><div id="msgCz" class="msg"></div><div id="msgEn" class="msg"></div><div id="msgEnGlow" class="msg grad"></div></div>
+  <div class="msgbox"><div id="msgCz" class="msg"></div><div id="msgEn" class="msg"></div><div id="msgEnGlow" class="msg glowtext"></div></div>
   <div class="send">⏎ Send</div>
 </div>
 
@@ -225,8 +228,8 @@ window.render = function (t) {
     el.style.opacity = Math.min(clamp(pop), out);
     el.style.visibility = t >= from && t < until ? "visible" : "hidden";
     el.style.transform = `translateY(${down * 7}px) scale(${0.6 + 0.4 * pop})`;
-    el.style.boxShadow = down ? "0 2px 0 #111118, 0 0 40px rgba(142,128,255,.55)" : "0 9px 0 #111118";
-    el.style.borderColor = down ? "#8E80FF" : "#3A3A4C";
+    el.style.boxShadow = down ? "0 2px 0 #000, 0 0 40px rgba(0,255,185,.5)" : "0 9px 0 #000";
+    el.style.borderColor = down ? "#00FFB9" : "#3B3B3B";
   });
 
   // outro
@@ -239,7 +242,8 @@ window.render = function (t) {
   show(E("line1"), t, 25.85, 26.15, 99, 100, { dy: 20 });
   show(E("line2"), t, 26.05, 26.35, 99, 100, { dy: 20 });
 };
+// frames are only captured once the brand font is loaded
 window.render(0);
-window.ready = true;
+Promise.all(["500", "600"].map(w => document.fonts.load(`${w} 40px Urbanist`))).then(() => { window.ready = true; });
 </script>
 </body></html>
