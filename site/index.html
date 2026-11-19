@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordsmith</title>
+<meta name="description" content="Write in your language, send in English. A tiny macOS menu bar app that rewrites and summarizes with your Claude subscription.">
+<meta property="og:title" content="Wordsmith">
+<meta property="og:description" content="Write in your language, send in English.">
+<meta property="og:image" content="brag.jpg">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    --bg: #0B0B12;
+    --card: #14141F;
+    --line: rgba(255,255,255,.08);
+    --text: #F4F3FA;
+    --muted: #A3A1B8;
+    --a: #6B5CF2;
+    --b: #D959BF;
+    --grad: linear-gradient(120deg, var(--a), var(--b));
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+  .glow {
+    position: absolute; inset: -20vh -10vw auto; height: 90vh; z-index: -1; pointer-events: none;
+    background: radial-gradient(40% 50% at 35% 40%, rgba(107,92,242,.35), transparent 70%),
+                radial-gradient(35% 45% at 70% 45%, rgba(217,89,191,.28), transparent 70%);
+    filter: blur(40px);
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 72px 16px 48px; }
+  header { text-align: center; }
+  .icon { width: 112px; height: 112px; filter: drop-shadow(0 18px 40px rgba(107,92,242,.45)); }
+  .name { margin: 14px 0 0; font-size: 15px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  h1 {
+    margin: 18px auto 0; max-width: 16ch; font-size: clamp(40px, 7vw, 72px); line-height: 1.04;
+    letter-spacing: -.035em; font-weight: 750; text-wrap: balance;
+  }
+  h1 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .intro { margin: 22px auto 0; max-width: 46ch; font-size: 19px; color: var(--muted); text-wrap: pretty; }
+  .cta { margin-top: 34px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .button {
+    display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 14px;
+    background: var(--grad); color: #fff; font-weight: 650; font-size: 17px; text-decoration: none;
+    box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 12px 32px rgba(141,92,230,.4);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .button:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 16px 40px rgba(141,92,230,.5); }
+  .button:active { transform: scale(.98); }
+  .button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  .button svg { width: 18px; height: 18px; }
+  .meta { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .video {
+    margin: 64px auto 0; border-radius: 20px; overflow: hidden; background: #000;
+    box-shadow: 0 0 0 1px var(--line), 0 40px 120px rgba(107,92,242,.25);
+  }
+  .video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  section { margin-top: 96px; }
+  h2 { margin: 0 0 24px; font-size: 28px; letter-spacing: -.02em; text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .card { padding: 24px; border-radius: 18px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+  .keys { display: flex; gap: 6px; margin-bottom: 16px; }
+  kbd {
+    display: inline-grid; place-items: center; min-width: 40px; height: 40px; padding: 0 10px; border-radius: 10px;
+    background: #1E1E2C; box-shadow: 0 0 0 1px var(--line), 0 2px 0 #08080D; font-family: inherit; font-size: 19px; font-weight: 600; line-height: 1; color: var(--text);
+  }
+  .badge { display: inline-block; margin-bottom: 16px; padding: 9px 12px; border-radius: 10px; background: #1E1E2C; box-shadow: 0 0 0 1px var(--line); font-size: 15px; font-weight: 600; }
+  .card h3 { margin: 0 0 6px; font-size: 19px; }
+  .card p { margin: 0; color: var(--muted); font-size: 16px; }
+  ol { counter-reset: step; list-style: none; margin: 0 auto; padding: 0; max-width: 680px; }
+  ol li { counter-increment: step; position: relative; padding: 0 0 22px 52px; color: var(--muted); }
+  ol li::before {
+    content: counter(step); position: absolute; left: 0; top: -2px; width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--grad); color: #fff; font-weight: 700; font-size: 15px;
+    font-variant-numeric: tabular-nums;
+  }
+  ol li strong { color: var(--text); font-weight: 600; }
+  code { padding: 2px 6px; border-radius: 6px; background: #1E1E2C; color: var(--text); font: 14px ui-monospace, "SF Mono", Menlo, monospace; overflow-wrap: anywhere; }
+  footer { margin-top: 72px; text-align: center; font-size: 14px; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .button { transition: none; } }
+  @media (max-width: 600px) {
+    main { padding-top: 48px; }
+    .intro { font-size: 17px; }
+    .video { margin-top: 44px; border-radius: 14px; }
+    section { margin-top: 64px; }
+  }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<main>
+  <header>
+    <img class="icon" src="icon.png" alt="" width="112" height="112">
+    <p class="name">Wordsmith</p>
+    <h1>Write in your language. <span>Send in English.</span></h1>
+    <p class="intro">A tiny macOS menu bar app. Select what you typed, tap ⌥ twice, pick Professional, Shorter or Casual, and proper English replaces it right where you wrote it.</p>
+    <div class="cta">
+      <a class="button" href="Wordsmith.zip" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+        Download for Mac
+      </a>
+      <span class="meta">macOS 13+ · Apple silicon · build __VERSION__</span>
+    </div>
+  </header>
+
+  <div class="video">
+    <video src="brag.mp4" poster="brag.jpg" controls playsinline preload="metadata" aria-label="Wordsmith demo video"></video>
+  </div>
+
+  <section aria-labelledby="what">
+    <h2 id="what">Two shortcuts, nothing else</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="keys"><kbd>⌥</kbd><kbd>⌥</kbd></div>
+        <h3>Rewrite</h3>
+        <p>Three English versions of your selection: Professional, Shorter and Casual. Pick one with 1–4 or the arrows and it replaces your text in place. Your clipboard is put back.</p>
+      </div>
+      <div class="card">
+        <div class="keys"><kbd>⌃</kbd><kbd>⌃</kbd></div>
+        <h3>Summarize</h3>
+        <p>The gist of a long thread or email: the bottom line plus the decisions, action items, deadlines and numbers. In English and in your system language, ready to copy.</p>
+      </div>
+      <div class="card">
+        <div class="badge">No API key</div>
+        <h3>Runs on your Claude subscription</h3>
+        <p>Wordsmith calls the Claude Code CLI you are already signed in to. Nothing to configure, no key to paste.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="install">
+    <h2 id="install">Install</h2>
+    <ol>
+      <li><strong>Install Claude Code and sign in.</strong> Run <code>claude auth login</code> once in Terminal.</li>
+      <li><strong>Unzip and move Wordsmith to Applications.</strong></li>
+      <li><strong>Open it once.</strong> The app is not notarized, so macOS blocks the first launch: open System Settings → Privacy &amp; Security and click Open Anyway. Or run <code>xattr -dr com.apple.quarantine /Applications/Wordsmith.app</code>.</li>
+      <li><strong>Allow Accessibility</strong> when asked. Wordsmith needs it to copy your selection and paste the result.</li>
+      <li><strong>Using the Claude desktop app?</strong> It also listens for double ⌥. Turn that off in its settings.</li>
+    </ol>
+  </section>
+
+  <footer>Wordsmith ✨ · a little menu bar helper built with Claude</footer>
+</main>
+</body>
+</html>

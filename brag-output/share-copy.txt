@@ -1,0 +1,1 @@
+Write in your language, send in English. Wordsmith is a tiny macOS menu bar app: select what you typed, tap ⌥ twice, pick Professional, Shorter or Casual, and proper English replaces it right where you wrote it. Tap ⌃ twice on a long thread and you get the gist in English and in your own language, all running on your Claude subscription.

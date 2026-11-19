@@ -1,0 +1,14 @@
+{
+  "message" : "hele ten deploy včera rozbil přihlašování, už jsem to rollbacknul, ale potřebuju aby se na to někdo z backendu podíval dneska",
+  "nativeLanguage" : "Czech",
+  "summaries" : [
+    "The client wants the database migration done by end of month, but Petr and Jana think it won't be ready because the indexes on the orders table are still unresolved. Q4 budget is almost used up.\n- Risk: Martin is on vacation next week.\n- Petr will ask the client to move the deadline at Thursday's call; if that fails, someone from the platform team would have to be pulled in.\n- Jana will prepare an estimate of the real migration effort and send it by Wednesday.\n- Tomáš: about 12k EUR remains in the Q4 budget.",
+    "Klient chce migraci databáze hotovou do konce měsíce, ale Petr s Janou si myslí, že se to nestihne, protože ještě nejsou vyřešené indexy na tabulce orders. Rozpočet na Q4 je téměř vyčerpaný.\n- Riziko: Martin je příští týden na dovolené.\n- Petr se na čtvrtečním callu pokusí s klientem domluvit posun termínu; pokud to nepůjde, bude se muset vzít někdo z platform týmu.\n- Jana připraví odhad reálné pracnosti migrace a pošle ho do středy.\n- Tomáš: v rozpočtu na Q4 zbývá cca 12k EUR."
+  ],
+  "thread" : "Petr: ahoj, tak jsme včera řešili s klientem tu migraci databáze. Chtějí to mít hotové do konce měsíce, ale upřímně si myslím že to nestihneme, protože ještě nemáme vyřešené ty indexy na tabulce orders.\nJana: souhlas, navíc Martin je příští týden na dovolené. Můžeme posunout termín?\nPetr: zkusím to s nimi probrat ve čtvrtek na callu. Kdyby to nešlo, tak bychom museli vzít někoho z platform týmu.\nJana: ok, já mezitím připravím odhad, kolik ta migrace reálně zabere. Pošlu do středy.\nTomáš: jen připomínám, že rozpočet na Q4 je už skoro vyčerpaný, zbývá cca 12k EUR.",
+  "variants" : [
+    "Yesterday's deployment broke the login functionality. I have already rolled it back, but I need someone from the backend team to investigate the issue today.",
+    "Yesterday's deployment broke login. I have rolled it back, but a backend engineer needs to investigate today.",
+    "Yesterday's deploy broke the login. I've already rolled it back, but I need someone from backend to take a look at it today."
+  ]
+}

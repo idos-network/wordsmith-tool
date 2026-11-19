@@ -1,0 +1,245 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Wordsmith</title>
+<style>
+:root { --a: #6B5CF2; --b: #D959BF; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0B12; color: #fff;
+  font-family: -apple-system, "SF Pro Display", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.abs { position: absolute; }
+.glow { position: absolute; width: 1100px; height: 1100px; border-radius: 50%; filter: blur(150px); opacity: .32; }
+#glowA { background: var(--a); } #glowB { background: var(--b); }
+.cap { position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-size: 68px; font-weight: 700; letter-spacing: -1.6px; }
+.cap.mid { top: 450px; font-size: 76px; }
+.grad { background: linear-gradient(90deg, #8E80FF, #F07AD6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cap kbd, .line kbd { display: inline-block; font: inherit; font-size: .78em; min-width: 1.15em; padding: 0 .22em; border-radius: .2em;
+  background: #24242F; border: 2px solid #3A3A4C; box-shadow: 0 .09em 0 #121219; line-height: 1.2; vertical-align: .06em; color: #fff; }
+
+#composer { left: 410px; top: 236px; width: 1100px; height: 250px; background: #16161E; border: 1px solid #2A2A37;
+  border-radius: 22px; padding: 26px 36px; box-shadow: 0 30px 90px rgba(0,0,0,.55); }
+.chan { font-size: 22px; color: #8B8BA3; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.chan .dot { width: 10px; height: 10px; border-radius: 50%; background: #3FCF6E; }
+.msgbox { position: relative; margin-top: 18px; height: 150px; font-size: 34px; line-height: 1.4; }
+.msg { position: absolute; inset: 0; color: #F2F2F7; }
+.sel { background: rgba(10,132,255,.5); border-radius: 3px; }
+.caret { display: inline-block; width: 3px; height: 40px; background: #fff; vertical-align: -7px; margin-left: 1px; }
+.send { position: absolute; right: 26px; bottom: 22px; font-size: 20px; color: #6E6E85; font-weight: 600; }
+
+.panel { position: absolute; transform-origin: 0 0; border-radius: 18px; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); }
+
+.key { position: absolute; width: 112px; height: 112px; border-radius: 24px; background: #22222E; border: 2px solid #3A3A4C;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 9px 0 #111118; }
+.key b { font-size: 50px; font-weight: 500; line-height: 1; }
+.key i { font-style: normal; font-size: 17px; color: #9A9AB2; letter-spacing: .3px; }
+
+#thread { left: 100px; top: 222px; width: 760px; background: #16161E; border: 1px solid #2A2A37; border-radius: 22px;
+  padding: 22px 28px 26px; box-shadow: 0 30px 90px rgba(0,0,0,.55); }
+.tm { display: flex; gap: 16px; padding: 10px 0; position: relative; }
+.av { flex: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 21px; }
+.who { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+.txt { font-size: 21px; line-height: 1.38; color: #D9D9E6; }
+#threadSel { position: absolute; left: 14px; right: 14px; top: 62px; bottom: 16px; border-radius: 12px; background: rgba(10,132,255,.24); }
+
+#menubar { left: 0; top: 0; width: 1920px; height: 50px; background: rgba(28,28,36,.82); border-bottom: 1px solid rgba(255,255,255,.07); }
+#wandBox { position: absolute; left: 1622px; top: 6px; width: 50px; height: 38px; border-radius: 8px; }
+#wand { position: absolute; left: 10px; top: 4px; width: 30px; height: 28px; }
+#clock { position: absolute; left: 1700px; top: 11px; font-size: 22px; font-weight: 500; color: #EDEDF2; }
+#menu { left: 1370px; top: 58px; width: 520px; padding: 10px; border-radius: 16px; background: rgba(44,44,54,.96);
+  border: 1px solid rgba(255,255,255,.1); box-shadow: 0 30px 80px rgba(0,0,0,.6); transform-origin: 270px 0; }
+.mi { display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-radius: 9px;
+  font-size: 26px; color: #F2F2F7; }
+.mi span { color: #9A9AB2; letter-spacing: 2px; }
+.mi.on { background: #0A66E8; }
+.mi.on span { color: #fff; }
+.msep { height: 1px; background: rgba(255,255,255,.12); margin: 8px 12px; }
+#cursor { left: 0; top: 0; width: 40px; height: 40px; transform-origin: 6px 4px; }
+
+#outro { inset: 0; }
+#icon { position: absolute; left: 810px; top: 150px; width: 300px; height: 300px; }
+#title { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font-size: 120px; font-weight: 800; letter-spacing: -3px; }
+#tagline { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 56px; font-weight: 700; letter-spacing: -1px; }
+.line { position: absolute; left: 0; right: 0; text-align: center; font-size: 32px; color: #A6A6BD; font-weight: 500; }
+#line1 { top: 760px; } #line2 { top: 822px; font-size: 26px; color: #7C7C94; }
+</style></head>
+<body>
+<div id="glowA" class="glow"></div><div id="glowB" class="glow"></div>
+
+<div id="c1" class="cap">Write in <span class="grad">your language.</span></div>
+<div id="c2" class="cap">Tap <kbd>⌥</kbd> twice.</div>
+<div id="c3" class="cap">Pick one. It <span class="grad">replaces your text.</span></div>
+<div id="c4" class="cap">Tap <kbd>⌃</kbd> twice for the <span class="grad">gist.</span></div>
+<div id="c5" class="cap">In <span class="grad">English</span> and in <span class="grad">your language.</span></div>
+<div id="c6" class="cap">Copy the one <span class="grad">you need.</span></div>
+<div id="c7" class="cap mid">Lives in your <span class="grad">menu bar.</span></div>
+<div id="c8" class="cap mid">No API key. Just your <span class="grad">Claude subscription.</span></div>
+
+<div id="composer" class="abs">
+  <div class="chan"><span class="dot"></span># backend</div>
+  <div class="msgbox"><div id="msgCz" class="msg"></div><div id="msgEn" class="msg"></div><div id="msgEnGlow" class="msg grad"></div></div>
+  <div class="send">⏎ Send</div>
+</div>
+
+<img id="pLoad" class="panel" src="panels/loading-polish.png" width="736">
+<img id="pC0" class="panel" src="panels/choices-0.png" width="736">
+<img id="pC1" class="panel" src="panels/choices-1.png" width="736">
+<img id="pC2" class="panel" src="panels/choices-2.png" width="736">
+
+<div id="thread" class="abs"><div class="chan"><span class="dot"></span># migration</div><div id="threadSel"></div><div id="tmsgs"></div></div>
+<img id="pSLoad" class="panel" src="panels/loading-summary.png" width="760">
+<img id="pSum" class="panel" src="panels/summary-0.png" width="760">
+
+<div id="menubar" class="abs"><div id="wandBox"><img id="wand" src="wand.png"></div><div id="clock">Tue 18 Nov&nbsp;&nbsp;10:42</div></div>
+<div id="menu" class="abs">
+  <div id="mi0" class="mi">Rewrite selection<span>⌥ ⌥</span></div>
+  <div class="mi">Summarize selection<span>⌃ ⌃</span></div>
+  <div class="msep"></div>
+  <div class="mi">Quit<span>⌘Q</span></div>
+</div>
+<svg id="cursor" class="abs" viewBox="0 0 24 24"><path d="M3 2 L3 19 L7.5 14.8 L10.6 21.5 L13.4 20.2 L10.4 13.6 L16.6 13.4 Z"
+  fill="#fff" stroke="#000" stroke-width="1.3" stroke-linejoin="round"/></svg>
+
+<div id="keys"></div>
+
+<div id="outro" class="abs">
+  <img id="icon" src="icon.png">
+  <div id="title">Wordsmith</div>
+  <div id="tagline">Write in your language. <span class="grad">Send in English.</span></div>
+  <div id="line1" class="line"><kbd>⌥</kbd><kbd>⌥</kbd> rewrite &nbsp;·&nbsp; <kbd>⌃</kbd><kbd>⌃</kbd> summarize</div>
+  <div id="line2" class="line">A macOS menu bar app · runs on your Claude subscription</div>
+</div>
+
+<script src="data.js"></script>
+<script>
+const E = id => document.getElementById(id);
+const clamp = x => Math.max(0, Math.min(1, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const back = x => { const c1 = 1.6, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+// opacity/transform for an element that comes in during [a, b] and leaves during [c, d]
+function show(el, t, a, b, c, d, { dy = 22, scale = 0 } = {}) {
+  const i = easeOut(prog(t, a, b)), o = 1 - prog(t, c, d), op = Math.min(i, o);
+  el.style.opacity = op;
+  el.style.visibility = op > 0.001 ? "visible" : "hidden";
+  const s = 1 - scale * (1 - i) - scale * 0.5 * (1 - o);
+  el.style.transform = `translateY(${(1 - i) * dy - (1 - o) * dy * 0.6}px) scale(${s})`;
+}
+function place(el, x, y) { el.style.left = x + "px"; el.style.top = y + "px"; }
+
+// keystroke HUD: [label, caption, press time, x, y, visible from, visible until]
+const KEYS = [
+  ["⌥", "option", 3.9, 1300, 650, 3.75, 5.6], ["⌥", "option", 4.2, 1436, 650, 4.05, 5.6],
+  ["↓", "", 7.7, 1366, 650, 7.6, 8.2], ["↓", "", 8.2, 1366, 650, 8.2, 8.7], ["↑", "", 8.7, 1366, 650, 8.7, 9.1],
+  ["↑", "", 9.1, 1366, 650, 9.1, 9.6], ["⏎", "return", 9.6, 1366, 650, 9.6, 10.3],
+  ["⌃", "control", 13.7, 896, 430, 13.55, 15.2], ["⌃", "control", 13.95, 896, 570, 13.8, 15.2],
+  ["⏎", "return", 18.55, 896, 500, 18.4, 19.2],
+];
+const keyEls = KEYS.map(([label, caption]) => {
+  const k = document.createElement("div");
+  k.className = "key";
+  k.innerHTML = `<b>${label}</b>${caption ? `<i>${caption}</i>` : ""}`;
+  E("keys").appendChild(k);
+  return k;
+});
+
+const COLORS = { Petr: "#4C8DF6", Jana: "#E8638B", "Tomáš": "#F0A83C" };
+E("tmsgs").innerHTML = DATA.thread.trim().split("\n").map(line => {
+  const [who, ...rest] = line.split(": ");
+  return `<div class="tm"><div class="av" style="background:${COLORS[who]}">${who[0]}</div>` +
+    `<div><div class="who">${esc(who)}</div><div class="txt">${esc(rest.join(": "))}</div></div></div>`;
+}).join("");
+const czech = DATA.message, english = DATA.variants[0];
+E("msgEn").textContent = english;
+E("msgEnGlow").textContent = english;
+
+window.render = function (t) {
+  // background glows drift slowly
+  place(E("glowA"), -250 + 140 * Math.sin(t * 0.25), -420 + 90 * Math.cos(t * 0.2));
+  place(E("glowB"), 1100 + 120 * Math.cos(t * 0.22), 480 + 80 * Math.sin(t * 0.3));
+
+  // captions: in, hold, out
+  show(E("c1"), t, 0.05, 0.4, 3.45, 3.6);
+  show(E("c2"), t, 3.7, 4.0, 6.85, 7.0);
+  show(E("c3"), t, 7.15, 7.45, 12.05, 12.2);
+  show(E("c4"), t, 12.65, 12.95, 14.95, 15.1);
+  show(E("c5"), t, 15.25, 15.55, 17.35, 17.5);
+  show(E("c6"), t, 17.6, 17.9, 19.2, 19.35);
+  show(E("c7"), t, 19.55, 19.85, 21.3, 21.45);
+  show(E("c8"), t, 21.55, 21.85, 24.3, 24.45);
+
+  // 1) composer: the message types out, gets selected, is replaced by English
+  show(E("composer"), t, -1, 0, 12.15, 12.45, { dy: 30 });
+  const typed = Math.round(czech.length * prog(t, 0.3, 2.5));
+  const selected = t >= 9.8 ? 0 : Math.round(typed * easeOut(prog(t, 2.8, 3.3)));
+  const caretOn = t < 2.8 && (t < 2.55 || Math.floor(t * 2.2) % 2 === 0);
+  E("msgCz").innerHTML = `<span class="sel">${esc(czech.slice(0, selected))}</span>${esc(czech.slice(selected, typed))}` +
+    (caretOn ? `<span class="caret"></span>` : "");
+  E("msgCz").style.opacity = 1 - prog(t, 9.8, 9.95);
+  const en = easeOut(prog(t, 10.0, 10.35));
+  E("msgEn").style.opacity = en;
+  E("msgEn").style.filter = `blur(${(1 - en) * 8}px)`;
+  E("msgEn").style.transform = `translateY(${(1 - en) * 10}px)`;
+  E("msgEnGlow").style.opacity = en * (1 - prog(t, 10.4, 11.1));
+  E("msgEnGlow").style.transform = E("msgEn").style.transform;
+
+  // the real panel: loading, then the choices with the selection moving, then Enter closes it
+  place(E("pLoad"), 450, 502);
+  show(E("pLoad"), t, 4.45, 4.7, 5.9, 6.0, { dy: 0, scale: 0.06 });
+  const choice = t < 7.7 ? 0 : t < 8.2 ? 1 : t < 8.7 ? 2 : t < 9.1 ? 1 : 0;
+  ["pC0", "pC1", "pC2"].forEach((id, i) => {
+    place(E(id), 450, 502);
+    show(E(id), t, 5.95, 6.2, 9.65, 9.85, { dy: 0, scale: 0.04 });
+    if (i !== choice) { E(id).style.opacity = 0; E(id).style.visibility = "hidden"; }
+  });
+
+  // 2) a thread gets summarized, Enter copies the chosen language
+  show(E("thread"), t, 12.5, 12.85, 19.2, 19.5, { dy: 30 });
+  E("threadSel").style.clipPath = `inset(0 0 ${100 * (1 - easeOut(prog(t, 12.9, 13.4)))}% 0 round 12px)`;
+  place(E("pSLoad"), 1040, 232);
+  show(E("pSLoad"), t, 14.15, 14.4, 15.1, 15.2, { dy: 0, scale: 0.06 });
+  place(E("pSum"), 1040, 232);
+  show(E("pSum"), t, 15.15, 15.45, 18.6, 18.8, { dy: 0, scale: 0.04 });
+
+  // 3) menu bar: the cursor opens the real menu
+  show(E("menubar"), t, 19.45, 19.75, 24.35, 24.6, { dy: -20 });
+  E("wandBox").style.background = t >= 20.6 ? "rgba(255,255,255,.2)" : "transparent";
+  show(E("menu"), t, 20.6, 20.8, 24.35, 24.6, { dy: -8, scale: 0.04 });
+  E("mi0").className = t >= 21.6 ? "mi on" : "mi";
+  const toWand = easeInOut(prog(t, 19.9, 20.5)), toItem = easeInOut(prog(t, 21.15, 21.6));
+  const cx = 1250 + (1640 - 1250) * toWand + (1700 - 1640) * toItem;
+  const cy = 620 + (22 - 620) * toWand + (88 - 22) * toItem;
+  place(E("cursor"), cx, cy);
+  E("cursor").style.transform = `scale(${t >= 20.5 && t < 20.62 ? 0.85 : 1})`;
+  E("cursor").style.opacity = Math.min(prog(t, 19.6, 19.8), 1 - prog(t, 24.35, 24.6));
+  E("cursor").style.visibility = t >= 19.6 && t < 24.6 ? "visible" : "hidden";
+
+  // keystroke HUD
+  KEYS.forEach(([, , press, x, y, from, until], i) => {
+    const el = keyEls[i];
+    const pop = back(prog(t, from, from + 0.18)), out = 1 - prog(t, until - 0.15, until);
+    const down = t >= press && t < press + 0.12 ? 1 : 0;
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+    el.style.opacity = Math.min(clamp(pop), out);
+    el.style.visibility = t >= from && t < until ? "visible" : "hidden";
+    el.style.transform = `translateY(${down * 7}px) scale(${0.6 + 0.4 * pop})`;
+    el.style.boxShadow = down ? "0 2px 0 #111118, 0 0 40px rgba(142,128,255,.55)" : "0 9px 0 #111118";
+    el.style.borderColor = down ? "#8E80FF" : "#3A3A4C";
+  });
+
+  // outro
+  const ic = prog(t, 24.95, 25.45);
+  E("icon").style.opacity = clamp(ic * 3);
+  E("icon").style.transform = `scale(${0.55 + 0.45 * back(ic)})`;
+  E("icon").style.visibility = t >= 24.95 ? "visible" : "hidden";
+  show(E("title"), t, 25.2, 25.55, 99, 100, { dy: 30 });
+  show(E("tagline"), t, 25.5, 25.85, 99, 100, { dy: 30 });
+  show(E("line1"), t, 25.85, 26.15, 99, 100, { dy: 20 });
+  show(E("line2"), t, 26.05, 26.35, 99, 100, { dy: 20 });
+};
+window.render(0);
+window.ready = true;
+</script>
+</body></html>

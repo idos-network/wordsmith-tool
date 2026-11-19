@@ -1,0 +1,8 @@
+build/
+.DS_Store
+# video render intermediates (scripts in brag-output/work stay tracked)
+brag-output/work/frames/
+brag-output/work/chrome-profile/
+brag-output/work/stills*/
+brag-output/work/*.wav
+brag-output/work/data.js
